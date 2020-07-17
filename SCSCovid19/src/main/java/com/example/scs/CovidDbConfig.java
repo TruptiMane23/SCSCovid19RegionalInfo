@@ -1,0 +1,46 @@
+package com.example.scs;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(basePackages = { "com.example.scs.model" }, basePackageClasses = { com.example.scs.dao.RegistrationDao.class,
+		com.example.scs.dao.CovidDashboardDao.class, com.example.scs.dao.FeedbackDao.class,
+		com.example.scs.dao.WorldDetailsDao.class }, entityManagerFactoryRef = "covidEntityFactory", transactionManagerRef = "covidTransactionManager")
+public class CovidDbConfig {
+
+	@ConfigurationProperties(prefix = "spring.covid")
+	@Bean
+	public DataSource covidDatasource() {
+		return DataSourceBuilder.create().build();
+	}
+
+	@Bean("covidEntityFactory")
+	public LocalContainerEntityManagerFactoryBean covidEntityFactory(@Qualifier("covidDatasource") DataSource covidDatasource,
+			EntityManagerFactoryBuilder entityManagerFactoryBuilder) {
+		Map<String, Object> properties = new HashMap<>();
+		properties.put("hibernate.hbm2ddl.auto", "update");
+		return entityManagerFactoryBuilder.dataSource(covidDatasource).properties(properties).packages("com.example.scs.model").build();
+	}
+
+	@Bean
+	public PlatformTransactionManager covidTransactionManager(final @Qualifier("covidEntityFactory") EntityManagerFactory entityManagerFactory) {
+		return new JpaTransactionManager(entityManagerFactory);
+	}
+}

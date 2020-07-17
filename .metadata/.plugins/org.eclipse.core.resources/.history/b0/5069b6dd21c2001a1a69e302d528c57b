@@ -1,0 +1,369 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: Roboto, Helvetica, sans-serif;
+}
+/* Fix the button on the left side of the page */
+.open-btn {
+	display: flex;
+	justify-content: left;
+}
+
+.register-btn {
+	display: flex;
+	justify-content: right;
+}
+/* Style and fix the button on the page */
+.open-button {
+	background-color: #1c87c9;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	opacity: 0.8;
+	/* position: fixed; */
+}
+
+/* Position the Popup form */
+.login-popup {
+	position: relative;
+	align-content:center;
+	align-self:center;
+	align-items:center
+	text-align: center;
+	width: 100%;
+}
+/* Hide the Popup form */
+.form-popup {
+	display: none;
+	position: fixed;
+	left: 45%;
+	top: 5%;
+	transform: translate(-45%, 5%);
+	border: 2px solid #666;
+	z-index: 9;
+}
+/* Styles for the form container */
+.form-container {
+	max-width: 300px;
+	padding: 20px;
+	background-color: #fff;
+}
+/* Full-width for input fields */
+.form-container input[type=text], .form-container input[type=password] {
+	width: 100%;
+	padding: 10px;
+	margin: 5px 0 22px 0;
+	border: none;
+	background: #eee;
+}
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus
+	{
+	background-color: #ddd;
+	outline: none;
+}
+/* Style submit/login button */
+.form-container .btn {
+	background-color: #1c87c9;
+	color: #fff;
+	padding: 12px 20px;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	margin-bottom: 10px;
+	opacity: 0.8;
+}
+/* Style cancel button */
+.form-container .cancel {
+	background-color: #1c87c9;
+}
+/* Hover effects for buttons */
+.form-container .btn:hover, .open-button:hover {
+	opacity: 1;
+}
+
+.container {
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 30px;
+	margin: 20px;
+}
+
+.signInLeft {
+	background-color: #1c87c9;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+	transition: background 0.23s;
+	float: right;
+	padding: 12px 20px;
+	text-align: center;
+	border: none;
+	border-radius: 4px;
+	font-size: 1em;
+}
+
+.signInLeft:hover {
+	background: rgb(0, 180, 50);
+}
+
+.signupRight {
+	background-color: #1c87c9;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+	transition: background 0.23s;
+	float: right;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	font-size: 1em;
+	margin-right: 5px;
+}
+
+.signupRight:hover {
+	background: rgb(0, 180, 50);
+}
+
+input[type=text], select, textarea {
+	width: 80%;
+	padding: 12px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	resize: vertical;
+}
+
+label {
+	padding: 12px 12px 12px 0;
+	display: inline-block;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.col-25 {
+	float: left;
+	width: 25%;
+	margin-top: 6px;
+}
+
+.col-75 {
+	float: left;
+	width: 40%;
+	margin-top: 6px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* HMI UI */
+
+
+
+/* Style the top navigation bar */
+.topnav {
+  overflow: hidden;
+  background: darkred;
+  font-family: "Segoe UI", Arial, sans-serif;
+  text-align: center;
+  text-decoration-color: white;
+  animation: mymove 5s infinite;
+}
+.title{
+  font-family: "Segoe UI", Arial, sans-serif;
+  text-align: center;
+  text-emphasis-color: white;
+
+}
+@keyframes mymove {
+  from {background-color: #6f1616;}
+  to {background-color: darkgrey;}
+}
+
+@keyframes pics {
+  from {background-image: url("../images/FAQ.jpg");   }
+  to {background-image: url("../images/questionImage.jpg"); }
+}
+
+@keyframes immune {
+  from {background-image: url("../images/lastcard1.jpg");   }
+  to {background-image: url("../images/lastcards2.jpg"); }
+}
+
+@keyframes posts {
+  from {background-image: url("../images/popularpost1.jpg");   }
+  to {background-image: url("../images/popularpost2.jpg"); }
+}
+
+
+.ChartCard_content__3y6dt {
+    flex-grow: 1;
+    padding: 20px;
+    color: #0072ce;
+}
+.ChartCard_new__2V4ZP {
+    position: relative;
+}
+.ChartCard_cta__1K_jy {
+    position: relative;
+    background-color: #0072ce;
+    transition: all 222ms ease-out;
+    padding: 8px 16px;
+    display: flex;
+    stroke: #fff;
+    fill: #fff;
+    transition: stroke 123ms,fill 123ms;
+}
+.ChartCard_base__1xw9Q {
+    position: relative;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    background-color: #b5deff;
+    color: #fff;
+}
+/* Style the topnav links */
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change color on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+/* Create two unequal columns that floats next to each other */
+/* Left column */
+.leftcolumn {
+  float: left;
+  width: 75%;
+}
+
+/* Right column */
+.rightcolumn {
+  float: left;
+  width: 25%;
+    /* background-color: #f1f1f1; */
+  padding-left: 20px;
+
+}
+
+/* Fake image */
+.fakeimg {
+  background-color: #aaa;
+    width: 100%;
+    padding: 46px;
+    animation: posts 5s infinite;
+}
+
+.mainInfo1{
+ background-color: #aaa;
+    width: 100%;
+    padding: 80px;
+    background: url("../images/mainInfo1.jpg") no-repeat;
+    background-size: 100%;
+
+}
+
+.startChat-btn {
+  background: rgb(0, 196, 65);
+  background-color: #b5deff;
+  color: #0072ce;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.23s;
+  float:left;
+  padding: 8px;
+  text-align: center;
+  border: none;
+  border-radius: 3px;
+  font-size: 1em;
+}
+
+.mainInfo2{
+  background-color: #aaa;
+  width: 100%;
+  padding: 150px;
+    background: url("../images/maskImage.jpg") left no-repeat, url("../images/fivePreventions.jpg") right  no-repeat;
+    background-size: 50%, 50%, auto;
+}
+
+/* Add a card effect for articles */
+.card {
+  background-color: white;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.contactcard{
+  padding: 20px;
+  margin-top: 20px;
+    color: #0072ce;
+    background-color: #b5deff;
+    width: max-content;
+}
+
+.lastCard{
+    padding: 190px;
+    margin-top: -17px;
+    color: #0072ce;
+    background-color: #b5deff;
+    background: url("../images/lastcard1.jpg") left no-repeat, url("../images/lastcards2.jpg") right no-repeat;
+    background-size: 50%, 50%, auto;
+}
+.cardrc{
+  padding: 20px;
+  color: #0072ce;
+  font-weight: bolder;
+  margin-top: 20px;
+  animation: pics 5s infinite;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Footer */
+.footer {
+  padding: 20px;
+  text-align: center;
+  background: #ddd;
+  margin-top: 20px;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+  .leftcolumn, .rightcolumn {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+/* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+@media screen and (max-width: 400px) {
+  .topnav a {
+    float: none;
+    width: 100%;
+  }
+}

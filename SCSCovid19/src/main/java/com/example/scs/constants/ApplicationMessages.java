@@ -1,0 +1,9 @@
+package com.example.scs.constants;
+
+public interface ApplicationMessages {
+
+	public final String ERROR_MESSAGE = "We are unable to serve your requests. Please Try Later!";
+	public final String REGISTERED_SUCCESS = "You have been successfully registered!";
+	public final String FEEDBACK_SUCCESS = "Thank you for your feedback!";
+
+}

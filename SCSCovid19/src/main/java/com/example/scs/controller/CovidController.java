@@ -1,0 +1,224 @@
+package com.example.scs.controller;
+
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.example.scs.constants.ApplicationMessages;
+import com.example.scs.model.UserFeedback;
+import com.example.scs.model.UserRegistration;
+import com.example.scs.services.CovidDashboardService;
+import com.example.scs.services.FeedbackService;
+import com.example.scs.services.LoginService;
+import com.example.scs.services.RegistrationService;
+import com.example.scs.util.CovidSession;
+import com.example.scs.vo.CovidDashboardVo;
+import com.example.scs.vo.FeedbackVo;
+import com.example.scs.vo.RegistrationVo;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+public class CovidController {
+
+	private static final Logger logger = LoggerFactory.getLogger(CovidController.class);
+
+	@Autowired
+	LoginService loginService;
+
+	@Autowired
+	RegistrationService registrationService;
+
+	@Autowired
+	CovidDashboardService covidDashboardService;
+
+	@Autowired
+	FeedbackService feedbackService;
+
+	@Autowired
+	CovidSession session;
+
+	@GetMapping("/home")
+	public String homePage(Model model, UserRegistration reg) {
+		logger.info("------------------Inside homePage Controller------------------");
+
+		try {
+			Map<String, Integer> covidDetailsMap = covidDashboardService.getCovidDashboardDetails();
+
+			model.addAttribute("TotalCases", covidDetailsMap.get("TotalCases"));
+			model.addAttribute("ActiveCases", covidDetailsMap.get("ActiveCases"));
+			model.addAttribute("Recovered", covidDetailsMap.get("Recovered"));
+			model.addAttribute("Death", covidDetailsMap.get("Death"));
+
+		} catch (Exception e) {
+			logger.error("-----------Exception in homePage Controller -------------", e.getMessage());
+			e.printStackTrace();
+			model.addAttribute("errorMsg", ApplicationMessages.ERROR_MESSAGE);
+			return "errorPage";
+		}
+		logger.info("------------------Exit homePage Controller------------------");
+		return "index";
+	}
+
+	@RequestMapping("/redirectToRegister")
+	public String redirectToRegister(Model model) {
+		logger.info("------------------Inside redirectToRegister------------------");
+
+		System.out.println("val --- " + session.getCovidCountryDropdown());
+		model.addAttribute("stateObject", session.getCovidCountryDropdown());
+		model.addAttribute("Country", "Select Country");
+		model.addAttribute("State", "Please Select Country First");
+		model.addAttribute("City", "Please Select State First");
+		model.addAttribute("disable", false);
+
+		logger.info("------------------Exit redirectToRegister------------------");
+		return "registration";
+	}
+
+	@RequestMapping("/userRegistration")
+	public String doUserRegistration(Model model, RegistrationVo vo) {
+		logger.info("------------------Inside doUserRegistration Controller------------------");
+
+		try {
+			UserRegistration user = registrationService.setUserRegistrationDetails(vo);
+			model.addAttribute("FirstName", user.getFirstName());
+			model.addAttribute("LastName", user.getLastName());
+			model.addAttribute("EmailId", user.getEmailId());
+			model.addAttribute("MobileNo", user.getMobileNo());
+			model.addAttribute("Country", user.getCountry());
+			model.addAttribute("State", user.getState());
+			model.addAttribute("City", user.getCity());
+			model.addAttribute("Username", user.getUsername());
+			model.addAttribute("Password", user.getUsername());
+			System.out.println("country.." + user.getCountry());
+			model.addAttribute("Country", user.getCountry());
+			model.addAttribute("State", user.getState());
+			model.addAttribute("City", user.getCity());
+			model.addAttribute("successRegMsg", ApplicationMessages.REGISTERED_SUCCESS);
+			model.addAttribute("disable", true);
+
+		} catch (Exception e) {
+			logger.error("-----------Exception in doUserRegistration Controller -------------", e.getMessage());
+			e.printStackTrace();
+			model.addAttribute("errorMsg", ApplicationMessages.ERROR_MESSAGE);
+			return "errorPage";
+		}
+		logger.info("------------------Exit doUserRegistration Controller------------------");
+		return "registration";
+	}
+
+	@PostMapping("/login")
+	public String loginUser(Model model, RegistrationVo vo) {
+		logger.info("------------------Inside loginUser Controller------------------");
+
+		try {
+			UserRegistration user = registrationService.verifyUser(vo);
+			if (user != null) {
+				model.addAttribute("stateObject", session.getCovidCountryDropdown());
+				session.setFirstName(user.getFirstName());
+				session.setUserId(user.getUserRegistrationId());
+				session.setEmailId(user.getEmailId());
+				session.setMobileNo(user.getMobileNo());
+				model.addAttribute("firstName", user.getFirstName());
+
+				List<String> allCovidDetails = covidDashboardService.getAll();
+				model.addAttribute("allCountryDetails", allCovidDetails);
+				model.addAttribute("lastUpdatedOn", session.getModifiedDate());
+
+				String msg = covidDashboardService.getAlertMessage(user.getCity()); // TODO add city instead of pincode
+				model.addAttribute("alertMsg", msg);
+
+				logger.info("------------------Exit loginUser Controller------------------");
+				return "covid_details";
+			} else {
+				model.addAttribute("TotalCases", session.getTotalCases());
+				model.addAttribute("ActiveCases", session.getActiveCases());
+				model.addAttribute("Recovered", session.getRecovered());
+				model.addAttribute("Death", session.getDeath());
+				model.addAttribute("InvalidUser", "Invalid Username and Password!");
+
+				logger.info("------------------Exit loginUser Controller------------------");
+				return "index";
+			}
+		} catch (Exception e) {
+			logger.error("-----------Exception in loginUser Controller -------------", e.getMessage());
+			e.printStackTrace();
+			model.addAttribute("errorMsg", ApplicationMessages.ERROR_MESSAGE);
+			return "errorPage";
+		}
+	}
+
+	@RequestMapping("/getRegionalCovidDetails")
+	public String getRegionalCovidDetails(Model model, CovidDashboardVo vo) {
+		logger.info("------------------Inside getRegionalCovidDetails Controller------------------");
+
+		try {
+			Map<String, Object> covidDetailsMap = covidDashboardService.getRegionalCovidDetails(vo.getCountryName(), vo.getStateName(), vo.getCityName());
+
+			model.addAttribute("TotalCases", covidDetailsMap.get("TotalCases"));
+			model.addAttribute("ActiveCases", covidDetailsMap.get("ActiveCases"));
+			model.addAttribute("Recovered", covidDetailsMap.get("Recovered"));
+			model.addAttribute("Death", covidDetailsMap.get("Death"));
+			model.addAttribute("Zone", covidDetailsMap.containsKey("Zone") ? covidDetailsMap.get("Zone") : "");
+			if(covidDetailsMap.containsKey("Zone")) //{
+				model.addAttribute("ZoneInfo", "Government has declared it as " + covidDetailsMap.get("Zone")+ " Zone");
+				
+			model.addAttribute("stateObject", session.getCovidCountryDropdown());
+			model.addAttribute("alertMsg", session.getAlertMsg());
+			model.addAttribute("allCountryDetails", session.getCovidDashboardData());
+			model.addAttribute("lastUpdatedOn", session.getModifiedDate());
+			model.addAttribute("firstName", session.getFirstName());
+
+			logger.info("------------------Exit getRegionalCovidDetails Controller------------------");
+			return "covid_details";
+		} catch (Exception e) {
+			logger.error("-----------Exception in loginUser Controller -------------", e.getMessage());
+			e.printStackTrace();
+			model.addAttribute("errorMsg", ApplicationMessages.ERROR_MESSAGE);
+			return "errorPage";
+		}
+	}
+
+	@RequestMapping("/giveFeedback")
+	public String giveFeedback(Model model) {
+		logger.info("------------------Inside giveFeedback------------------");
+
+		logger.info("------------------Exit giveFeedback------------------");
+		return "feedback";
+	}
+	
+	@RequestMapping("/feedbackSubmit")
+	public String feedbackSubmit(Model model, FeedbackVo vo) {
+		logger.info("------------------Inside feedbackSubmit Controller------------------");
+
+		try {
+			vo.setUserId(session.getUserId());
+			vo.setEmailId(session.getEmailId());
+			vo.setMobileNo(session.getMobileNo());
+			
+			UserFeedback user = feedbackService.userFeedback(vo);
+			
+			model.addAttribute("FirstName", user.getUserId());
+			model.addAttribute("EmailId", user.getEmailId());
+			model.addAttribute("MobileNo", user.getMobileNo());
+			model.addAttribute("successFeedback", ApplicationMessages.FEEDBACK_SUCCESS);
+
+		} catch (Exception e) {
+			logger.error("-----------Exception in feedbackSubmit Controller -------------", e.getMessage());
+			e.printStackTrace();
+			model.addAttribute("errorMsg", ApplicationMessages.ERROR_MESSAGE);
+			return "errorPage";
+		}
+		logger.info("------------------Exit feedbackSubmit Controller------------------");
+		return "feedback";
+	}
+}

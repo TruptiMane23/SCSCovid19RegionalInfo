@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+
+<!-- <link rel="stylesheet" type="text/css" href="css/index.css"> -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+						<style>
+						* {
+							box-sizing: border-box;
+						}
+						
+						body {
+							font-family: Roboto, Helvetica, sans-serif;
+						}
+						/* Fix the button on the left side of the page */
+						.open-btn {
+							display: flex;
+							justify-content: left;
+						}
+						
+						.register-btn {
+							display: flex;
+							justify-content: right;
+						}
+						/* Style and fix the button on the page */
+						.open-button {
+							background-color: #1c87c9;
+							color: white;
+							padding: 12px 20px;
+							border: none;
+							border-radius: 5px;
+							cursor: pointer;
+							opacity: 0.8;
+							/* position: fixed; */
+						}		
+						
+						/* Position the Popup form */
+						.login-popup {
+							position: relative;
+							text-align: center;
+							width: 100%;
+						}
+						/* Hide the Popup form */
+						.form-popup {
+							display: none;
+							position: fixed;
+							left: 45%;
+							top: 5%;
+							transform: translate(-45%, 5%);
+							border: 2px solid #666;
+							z-index: 9;
+						}
+						/* Styles for the form container */
+						.form-container {
+							max-width: 300px;
+							padding: 20px;
+							background-color: #fff;
+						}
+						/* Full-width for input fields */
+						.form-container input[type=text], .form-container input[type=password] {
+							width: 100%;
+							padding: 10px;
+							margin: 5px 0 22px 0;
+							border: none;
+							background: #eee;
+						}
+						/* When the inputs get focus, do something */
+						.form-container input[type=text]:focus, .form-container input[type=password]:focus
+							{
+							background-color: #ddd;
+							outline: none;
+						}
+						/* Style submit/login button */
+						.form-container .btn {
+							background-color: #1c87c9;
+							color: #fff;
+							padding: 12px 20px;
+							border: none;
+							cursor: pointer;
+							width: 100%;
+							margin-bottom: 10px;
+							opacity: 0.8;
+						}
+						/* Style cancel button */
+						.form-container .cancel {
+							background-color: #1c87c9;
+						}
+						/* Hover effects for buttons */
+						.form-container .btn:hover, .open-button:hover {
+							opacity: 1;
+						}
+						
+						
+
+						.container {
+							border-radius: 5px;
+							background-color: #f2f2f2;
+							padding: 30px;
+							margin: 20px;
+						}
+						
+						.signInLeft {
+							/* background: rgb(0, 196, 65); */
+							background-color: #1c87c9;
+							color: #fff;
+							font-weight: bold;
+							cursor: pointer;
+							transition: background 0.23s;
+							float: left;
+							padding: 8px;
+							text-align: center;
+							border: none;
+							border-radius: 4px;
+							font-size: 1em;
+						}
+						
+						.signInLeft:hover{
+						  background: rgb(0, 180, 50);
+						}
+						
+						.signupRight {
+					      background-color: #1c87c9;
+						  color: white;
+						  font-weight: bold;
+						  cursor: pointer;
+						  transition: background 0.23s;
+						  padding: 12px 20px;
+						  border: none;
+						  border-radius: 4px;
+						  font-size: 1em;
+						  float: right;
+						
+						}
+						
+						.signupRight:hover{
+						  background: rgb(0, 180, 50);
+						}
+						
+						input[type=text], select, textarea {
+						width: 80%;
+						padding: 12px;
+						border: 1px solid #ccc;
+						border-radius: 4px;
+						resize: vertical;
+						}
+					
+						label {
+						  padding: 12px 12px 12px 0;
+						  display: inline-block;
+						}
+						
+						* {
+						  box-sizing: border-box;
+						}
+		
+					
+					.col-25 {
+						float: left;
+						width: 25%;
+						margin-top: 6px;
+					}
+					
+					.col-75 {
+						float: left;
+						width: 40%;
+						margin-top: 6px;
+					}
+					
+					
+			
+</style>
+</head>
+<body>
+
+	<div class="container">
+		
+			World Count:
+			<div class="row">
+				<div class="col-25">
+					<label for="TotalCases">Total Cases:</label>
+					<input type="text" id="TotalCases" name="TotalCases" value="${TotalCases}">
+				</div>
+				<div class="col-25">
+					<label for="ActiveCases">Active Cases:</label>
+					<input type="text" id="ActiveCases" name="ActiveCases" value="${ActiveCases}">
+				</div>
+				<div class="col-25">
+					<label for="Recovered">Recovered:</label>
+					<input type="text" id="Recovered" name="Recovered" value="${Recovered}">
+				</div>
+				<div class="col-25">
+					<label for="Deaths">Deaths:</label>
+					<input type="text" id="Deaths" name="Deaths" value="${Death}">
+				</div>
+				
+			</div>			
+			
+
+		<!-- <div class="open-btn">
+			<button class="open-button" onclick="openForm()">
+				<strong>Sign In</strong>
+			</button>
+		</div>
+		<div class="register-btn">
+			<button class="open-button" onclick="redirectToRegister()">
+				<strong>Sign Up</strong>
+			</button>
+		</div> -->
+		
+		<div class="row"><label></label>  </div>
+		<div class="row"><label></label> </div>
+		<div class="row"><label></label> </div>
+		<div class="row"><label></label>  </div>
+		<div class="row"><label></label> </div>
+		<div class="row"><label></label>  </div>
+		<div class="row"><label></label> </div>
+		<div class="row"><label></label>  </div>
+		<div class="row"><label></label> </div>
+		<div class="row"><label></label>  </div>
+		
+		<div class="row">
+		    <button class="signInLeft"  onclick="openForm()"> Sign In  </button>
+		    <button class="signupRight"  onclick="redirectToRegister()"> Sign Up  </button>
+		</div>
+		
+		<div class="login-popup">
+			<div class="form-popup" id="popupForm">
+				<form action="login" class="form-container" method="post">
+					<h2>Please Log In</h2>
+					<label for="username"> <strong>Username</strong></label> <input
+						type="text" id="username" placeholder="Your Username" name="Username"
+						required> <label for="password"> <strong>Password</strong></label>
+					<input type="password" id="password" placeholder="Your Password"
+						name="password" required>
+					<button type="submit" class="btn">Log In</button>
+					<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+				</form>
+			</div>		
+		</div>
+		
+		<div class="row"><label></label> </div>
+		<div class="row"><label></label> </div>
+		<div class="row">
+		${InvalidUser} 
+		</div>
+		
+		
+
+	</div>
+	<script>
+		function openForm() {
+			document.getElementById("popupForm").style.display = "block";
+		}
+
+		function closeForm() {
+			document.getElementById("popupForm").style.display = "none";
+		}
+		function redirectToRegister() {
+			location.href = 'redirectToRegister';
+		}
+	</script>
+
+</body>
+</html>

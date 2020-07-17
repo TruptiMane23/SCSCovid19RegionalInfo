@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+
+<!-- <link rel="stylesheet" type="text/css" href="css/registration.css"> -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+					<style type="text/css">
+					input[type=text], select, textarea {
+						width: 80%;
+						padding: 12px;
+						border: 1px solid #ccc;
+						border-radius: 4px;
+						resize: vertical;
+					}
+					
+					label {
+						padding: 12px 12px 12px 0;
+						display: inline-block;
+					}
+					
+					input[type=submit] {
+						background-color: #4CAF50;
+						color: white;
+						padding: 12px 20px;
+						border: none;
+						border-radius: 4px;
+						cursor: pointer;
+						float: right;
+					}
+					
+					input[type=submit]:hover {
+						background-color: #45a049;
+					}
+					
+					.container {
+						border-radius: 5px;
+						background-color: #f2f2f2;
+						padding: 30px;
+						margin: 20px
+					}
+					
+					.col-25 {
+						float: left;
+						width: 25%;
+						margin-top: 6px;
+					}
+					
+					.col-75 {
+						float: left;
+						width: 75%;
+						margin-top: 6px;
+					}
+					
+					.row:after {
+						content: "";
+						display: table;
+						clear: both;
+					}
+					
+					@media screen and (max-width: 600px) {
+						.col-25, .col-75, input[type=submit] {
+							width: 80%;
+							margin-top: 0;
+						}
+					}
+					
+					.signup {
+						background: rgb(0, 196, 65);
+						color: #fff;
+						font-weight: bold;
+						cursor: pointer;
+						transition: background 0.23s;
+						float: left;
+						padding: 8px;
+						text-align: center;
+						border: none;
+						border-radius: 3px;
+						font-size: 1em;
+					}
+					
+					.feedback-btn:hover {
+						background: rgb(0, 180, 50);
+					}
+					</style>
+</head>
+
+<body>
+
+	<div class="container">
+		<form method="post" action="userRegistration" id="userRegistration">
+			<div class="row">
+				<div class="col-25">
+					<label for="fname">First Name: </label>
+				</div>
+				<div class="col-75">
+					<input type="text" id="fname" name="FirstName" value="${FirstName}" placeholder="Your name..">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<label for="lname">Last Name :</label>
+				</div>
+				<div class="col-75">
+					<input type="text" id="lname" name="LastName" value="${FirstName}" placeholder="Your last name..">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<label for="email">Email</label>
+				</div>
+				<div class="col-75">
+					<input type="text" id="email" name="EmailId" value="${FirstName}" placeholder="Your Email Id..">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<label for="mobile_no">Mobile No</label>
+				</div>
+				<div class="col-75">
+					<input type="text" id="mobile_no" name="MobileNo" value="${FirstName}" placeholder="Your Mobile No..">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<label for="country">Country</label>
+				</div>
+				<div class="col-75">
+					<input type="text" id="country" name="Country" value="${FirstName}" placeholder="Your Mobile No..">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<label for="state">State</label>
+				</div>
+				<div class="col-75">
+					<input type="text" id="state" name="State" value="${FirstName}" placeholder="Your Mobile No..">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<label for="city">City</label>
+				</div>
+				<div class="col-75">
+					<input type="text" id="city" name="City" value="${FirstName}" placeholder="Your Mobile No..">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<label for="area">Area</label>
+				</div>
+				<div class="col-75">
+					<input type="text" id="area" name="Area" value="${FirstName}" placeholder="Your area..">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<label for="pincode">Pincode</label>
+				</div>
+				<div class="col-75">
+					<input type="text" id="pincode" name="Pincode" value="${FirstName}" placeholder="Your Pincode..">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<label for="address">Address</label>
+				</div>
+				<div class="col-75">
+					<input type="text" id="address" name="Address" value="${FirstName}" placeholder="Your Address..">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<label for="username">Username</label>
+				</div>
+				<div class="col-75">
+					<input type="text" id="username" name="Username" value="${FirstName}" placeholder="Your Username...">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<label for="password">Password</label>
+				</div>
+				<div class="col-75">
+					<input type="password" id="password" name="Password" value="${FirstName}" placeholder="Your Password..">
+				</div>
+			</div>
+			<div class="row">
+				<button class="signup">Sign Up</button>
+			</div>
+  
+		</form>
+
+		<%-- <div>
+			<h5>FirstName ${FirstName}</h5>
+			<h5>LastName ${LastName}</h5>
+			<h5>EmailId ${EmailId}</h5>
+			<h5>MobileNo ${MobileNo}</h5>
+			<h5>Country ${Country}</h5>
+			<h5>State ${State}</h5>
+			<h5>City ${City}</h5>
+			<h5>Area ${Area}</h5>
+			<h5>Pincode ${Pincode}</h5>
+			<h5>Address ${Address}</h5>
+			<h5>successRegMsg ${successRegMsg}</h5>
+			<h5>InvalidUser ${InvalidUser}</h5>
+		</div> --%>
+	</div>
+</body>
+</html>

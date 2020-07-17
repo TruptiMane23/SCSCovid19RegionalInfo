@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Feedback</title>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" type="text/css" href="css/feedback.css">
+
+<style type="text/css">
+* {
+	box-sizing: border-box;
+}
+
+input[type=text], select, textarea {
+	width: 80%;
+	padding: 12px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	resize: vertical;
+}
+
+label {
+	padding: 12px 12px 12px 0;
+	display: inline-block;
+}
+
+input[type=submit] {
+	background-color: #4CAF50;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	float: right;
+}
+
+input[type=submit]:hover {
+	background-color: #45a049;
+}
+
+.container {
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 30px;
+	margin: 20px
+}
+
+.col-25 {
+	float: left;
+	width: 25%;
+	margin-top: 6px;
+}
+
+.col-75 {
+	float: left;
+	width: 75%;
+	margin-top: 6px;
+}
+
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+@media screen and (max-width: 600px) {
+	.col-25, .col-75, input[type=submit] {
+		width: 80%;
+		margin-top: 0;
+	}
+}
+
+.errMesaage {
+	color: red;
+}
+
+.back-home-btn {
+	background-color: #4CAF50;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	float: left;
+}
+
+.feedback-btn:hover {
+	background: rgb(0, 196, 65);
+}
+
+@import
+	url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+fieldset, label {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	margin: 20px;
+}
+
+h1 {
+	font-size: 1.5em;
+	margin: 10px;
+}
+
+/****** Style Star Rating Widget *****/
+.rating {
+	border: none;
+	float: left;
+}
+
+.rating>input {
+	display: none;
+}
+
+.rating>label:before {
+	margin: 5px;
+	font-size: 1.25em;
+	font-family: FontAwesome;
+	display: inline-block;
+	content: "\f005";
+}
+
+.rating>.half:before {
+	content: "\f089";
+	position: absolute;
+}
+
+.rating>label {
+	color: #ddd;
+	float: right;
+}
+
+.radioContainer {
+	display: block;
+	position: relative;
+	padding-left: 35px;
+	margin-bottom: 12px;
+	cursor: pointer;
+	font-size: 22px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radioContainer input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 25px;
+	width: 25px;
+	background-color: #eee;
+	border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.radioContainer:hover input ~ .checkmark {
+	background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.radioContainer input:checked ~ .checkmark {
+	background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+	content: "";
+	position: absolute;
+	display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radioContainer input:checked ~ .checkmark:after {
+	display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radioContainer .checkmark:after {
+	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+.rating>input:checked ~ label, /* show gold star when clicked */ .rating:not
+	(:checked ) >label:hover, /* hover current star */ .rating:not (:checked
+	) >label:hover ~ label {
+	color: #FFD700;
+} /* hover previous stars in list */
+.rating>input:checked+label:hover,
+	/* hover current star when changing rating */ .rating>input:checked ~
+	label:hover, .rating>label:hover ~ input:checked ~ label,
+	/* lighten current selection */ .rating>input:checked ~ label:hover ~
+	label {
+	color: #FFED85;
+}
+</style>
+</head>
+<body>
+
+	<h2>Feedback</h2>
+
+	<div class="container">
+		<form name="RegForm" method="post" action="feedbackSubmit"
+			onsubmit="return validateInput()">
+			<h4>
+				We Would Like To Hear more about your experience <i
+					class='far fa-comments' style='font-size: 48px; color: limegreen'></i>
+			</h4>
+			
+			<div class="row">
+				<p>Help Us to serve you better !!</p>
+				<p>
+					Choose the Rating on scale of 1 to 5 <i class='far fa-smile'
+						style='font-size: 24px; color: limegreen'></i> <br>(1 being
+					lowest 5 being Highest)
+				</p>
+
+				<div class="col-25">
+					<p>The Website has User Friendly Interface?</p>
+				</div>
+				<div class="col-75">
+					<br> <input type="radio" name="understandability" value=1 required />
+					1 <br> <input type="radio" name="understandability" value=2>
+					2 <br> <input type="radio" name="understandability" value=3>
+					3 <br> <input type="radio" name="understandability" value=4>
+					4 <br> <input type="radio" name="understandability" value=5>
+					5
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<p>Was the website able to satisfy your query ?</p>
+				</div>
+				<div class="col-75">
+					<br> <input type="radio" name="reliability" value=1 required />
+					1 <br> <input type="radio" name="reliability" value=2> 2
+					<br> <input type="radio" name="reliability" value=3> 3 <br>
+					<input type="radio" name="reliability" value=4> 4 <br> <input
+						type="radio" name="reliability" value=5> 5
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<label for="comments">Additional Comments</label>
+				</div>
+
+				<div class="col-75">
+					<textarea id="comments" name="additionalComments"
+						placeholder="Write Comments.." style="height: 200px" required></textarea>
+				</div>
+			</div>
+
+			<div class="row">
+				<button class="back-home-btn" onclick="toHomePage()">Back</button>
+				<input type="submit" value="Submit">
+			</div>
+
+		</form>
+	</div>
+
+	<script>
+         function toHomePage()
+            {
+                location.href="home";
+            }
+
+          function validateInput() {
+
+              console.log('in validate input')
+              var x1, x2, x3, x4, x5, x6, text;
+              // Get the value of the input field
+              var x1 = document.forms["RegForm"]["fname"];
+              var x2 = document.forms["RegForm"]["lname"];
+              var x3 = document.forms["RegForm"]["email"];
+              var x4 =  document.forms["RegForm"]["mobile_no"];
+              var x5 = document.forms["RegForm"]["understandability"];
+              var x6 = document.forms["RegForm"]["reliability"];
+              var x7 = document.forms["RegForm"]["additionalComments"];
+              var emailText=x3.value
+              var letters = /^[A-Za-z]+$/;
+              var atposition=emailText.indexOf("@");
+              var dotposition=emailText.lastIndexOf(".");
+              console.log(x1, x2, x3, x4, x5, x6, x7)
+
+              if (isNaN(x4.value)) {
+                  window.alert("Invalid Phone Number");
+                  x4.focus();
+                  return false;
+                     }
+              if(atposition<1 || dotposition<atposition+2 || dotposition+2>=emailText.length){
+                  window.alert("Please Enter Valid Email");
+                  x3.focus();
+                  return false;
+              }
+              if(x1.value.match(letters) == null){
+                  window.alert("Name cannot have Numerics");
+                  x1.focus();
+                  return false;
+              }
+              if(x2.value.match(letters) == null){
+                  window.alert("Name cannot have Numerics");
+                  x2.focus();
+                  return false;
+              }
+
+              return true;
+          }
+
+    </script>
+</body>
+</html>

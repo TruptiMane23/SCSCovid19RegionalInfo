@@ -1,0 +1,232 @@
+package com.example.scs.services;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.scs.dao.CovidDashboardDao;
+import com.example.scs.model.CovidDashboard;
+import com.example.scs.util.CovidSession;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+@Service
+public class CovidDashboardServiceImpl implements CovidDashboardService {
+
+	private static final Logger logger = LoggerFactory.getLogger(CovidDashboardServiceImpl.class);
+
+	@Autowired
+	CovidDashboardDao covidDashboardDao;
+
+	@Autowired
+	CovidSession session;
+
+	@Override
+	public Map<String, Integer> getCovidDashboardDetails() throws Exception {
+		logger.info("------------------Inside getCovidDashboardDetails Service------------------");
+
+		Map<String, Integer> covidDetails = new HashMap<>();
+		Integer FinalTotalCount = 0;
+		Integer fincalActiveCases = 0;
+		Integer finalRecoveredCases = 0;
+		Integer finalDeathCases = 0;
+		try {
+			List<CovidDashboard> covidDashboardDetails = covidDashboardDao.findAll();
+
+			for (int i = 0; i < covidDashboardDetails.size(); i++) {
+				FinalTotalCount = FinalTotalCount + covidDashboardDetails.get(i).getTotalCases();
+				fincalActiveCases = fincalActiveCases + covidDashboardDetails.get(i).getActiveCases();
+				finalRecoveredCases = finalRecoveredCases + covidDashboardDetails.get(i).getRecoveredCases();
+				finalDeathCases = finalDeathCases + covidDashboardDetails.get(i).getDeathCases();
+			}
+
+			JsonObject countryJson = new JsonObject();
+			for (int i = 0; i < covidDashboardDetails.size(); i++) {
+				JsonObject stateJson = new JsonObject();
+
+				for (int j = i; j < covidDashboardDetails.size(); j++) {
+
+					JsonArray cityJson = new JsonArray();
+					if (covidDashboardDetails.get(i).getCountryName().equals(covidDashboardDetails.get(j).getCountryName())) {
+
+						for (int k = j; k < covidDashboardDetails.size(); k++) {
+
+							if (covidDashboardDetails.get(j).getStateName().equals(covidDashboardDetails.get(k).getStateName())) {
+								cityJson.add(covidDashboardDetails.get(k).getCityName());
+							} else {
+								j = k - 1;
+								break;
+							}
+							if (k == (covidDashboardDetails.size() - 1)) {
+								j = k;
+							}
+						}
+						stateJson.add(covidDashboardDetails.get(j).getStateName(), cityJson);
+					} else {
+						i = j - 1;
+						break;
+					}
+					if (j == (covidDashboardDetails.size() - 1)) {
+						i = j;
+					}
+				}
+				countryJson.add(covidDashboardDetails.get(i).getCountryName(), stateJson);
+			}
+
+			covidDetails.put("TotalCases", FinalTotalCount);
+			covidDetails.put("ActiveCases", fincalActiveCases);
+			covidDetails.put("Recovered", finalRecoveredCases);
+			covidDetails.put("Death", finalDeathCases);
+
+			session.setTotalCases(FinalTotalCount);
+			session.setActiveCases(fincalActiveCases);
+			session.setRecovered(finalRecoveredCases);
+			session.setDeath(finalDeathCases);
+			session.setCovidCountryDropdown(countryJson.toString());
+
+			logger.info("-------------Exit getCovidDashboardDetails Service---------------" + covidDetails);
+		} catch (Exception e) {
+			logger.error("-------------Exception in getCovidDashboardDetails--------------" + e.getMessage());
+			throw new Exception();
+		}
+		return covidDetails;
+	}
+
+	@Override
+	public Map<String, Object> getRegionalCovidDetails(String countryName, String stateName, String cityName) throws Exception {
+		logger.info("------------------Inside getRegionalCovidDetails Service------------------");
+
+		Map<String, Object> covidDetails = new HashMap<>();
+		List<CovidDashboard> covideRegionalDtls;
+		try {			
+			if (stateName.equals("")) {
+				covideRegionalDtls = covidDashboardDao.getCovidDetailsByCountry(countryName);
+			} else if (cityName.equals("")) {
+				covideRegionalDtls = covidDashboardDao.getCovidDetailsByState(countryName, stateName);
+			} else {
+				covideRegionalDtls = covidDashboardDao.getCovidDetailsByCity(countryName, stateName, cityName);
+				covidDetails.put("Zone", covideRegionalDtls.get(0).getZone());
+			}
+
+			Integer FinalTotalCount = 0;
+			Integer fincalActiveCases = 0;
+			Integer finalRecoveredCases = 0;
+			Integer finalDeathCases = 0;
+
+			for (int x = 0; x < covideRegionalDtls.size(); x++) {
+				FinalTotalCount = FinalTotalCount + covideRegionalDtls.get(x).getTotalCases();
+				fincalActiveCases = fincalActiveCases + covideRegionalDtls.get(x).getActiveCases();
+				finalRecoveredCases = finalRecoveredCases + covideRegionalDtls.get(x).getRecoveredCases();
+				finalDeathCases = finalDeathCases + covideRegionalDtls.get(x).getDeathCases();
+			}
+			covidDetails.put("TotalCases", FinalTotalCount);
+			covidDetails.put("ActiveCases", fincalActiveCases);
+			covidDetails.put("Recovered", finalRecoveredCases);
+			covidDetails.put("Death", finalDeathCases);
+
+			logger.info("------------------Exit getRegionalCovidDetails Service------------------");
+			return covidDetails;
+		} catch (Exception e) {
+			logger.info("--------------Exception in getRegionalCovidDetails Service--------------");
+			throw new Exception();
+		}
+	}
+
+	@Override
+	public List<String> getAll() throws Exception {
+		logger.info("------------------Inside getAll------------------");
+
+		List<String> finalList = new ArrayList<>();
+		try {
+			List<Object[]> dashboardDetails = covidDashboardDao.getAll();
+
+			AtomicInteger counter = new AtomicInteger(1);
+			dashboardDetails.forEach(x -> {
+				String[] arr = new String[9];
+
+				arr[0] = String.valueOf(counter.getAndIncrement());
+
+				String countryName = (String) x[0];
+				arr[1] = arr[0];
+
+				Long totalCases = (Long) x[1];
+				arr[2] = String.valueOf(totalCases);
+
+				Long activeCases = (Long) x[2];
+				arr[3] = String.valueOf(activeCases);
+
+				Long recovered = (Long) x[3];
+				arr[4] = String.valueOf(recovered);
+
+				Long daeths = (Long) x[4];
+				arr[5] = String.valueOf(daeths);
+
+				Long dailyNewCases = (Long) x[5];
+				arr[6] = String.valueOf(dailyNewCases);
+
+				Long dailyRecovered = (Long) x[6];
+				arr[7] = String.valueOf(dailyRecovered);
+
+				Long dailyDeaths = (Long) x[7];
+				arr[8] = String.valueOf(dailyDeaths);
+
+				finalList.add(Arrays.toString(arr));
+			});
+
+			session.setModifiedDate();
+			session.setCovidDashboardData(finalList);
+
+			logger.info("------------------Exit getAll------------------" + finalList);
+			return finalList;
+		} catch (Exception e) {
+			logger.info("--------------Exception in getAll Service--------------");
+			throw new Exception();
+		}
+	}
+
+	@Override
+	public String getAlertMessage(String city) throws Exception {
+		logger.info("--------------Inside getAlertMessage Service--------------");
+
+		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		Calendar c = new GregorianCalendar();
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		Date midnightDate = c.getTime();
+		String alertmsg;
+		try {
+			CovidDashboard covidDashboard = covidDashboardDao.getAlertMessage(city);
+			String modifiedDate = covidDashboard.getMdDate();
+
+			if(covidDashboard.getNewDailyActive() >0) {
+				alertmsg = "There are " + covidDashboard.getNewDailyActive() + " new Active Cases in your city";
+			} else {
+				alertmsg = "There are no new Active Cases in your city";
+			}
+			
+			if (modifiedDate.equals(df.format(midnightDate))) {
+				session.setAlertMsg(alertmsg);
+				return alertmsg;
+			} else {
+				session.setAlertMsg("");
+				return "";
+			}
+		} catch (Exception e) {
+			logger.info("--------------Exception in getAlertMessage Service--------------");
+			throw new Exception();
+		}
+	}
+}

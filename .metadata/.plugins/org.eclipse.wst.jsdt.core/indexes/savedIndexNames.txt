@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+E:\TruptiFrankfurtStudyMaterial\SCS\Projects\COVID19\Workspace\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2641256006.index
+3470283692.index
+500013928.index
+2560521291.index
+400588956.index
+2954316139.index

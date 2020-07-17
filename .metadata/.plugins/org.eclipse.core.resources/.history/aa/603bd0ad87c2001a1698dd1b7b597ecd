@@ -1,0 +1,183 @@
+input[type=text], select, textarea {
+							width: 60%;
+							padding: 12px;
+							border: 1px solid #ccc;
+							border-radius: 4px;
+							resize: vertical;
+						} 
+						
+						label {
+							padding: 12px 12px 12px 0;
+							display: inline-block;
+						}
+						
+						input[type=submit] {
+						
+							background-color: #1c87c9;
+							color: white;
+							padding: 12px 20px;
+							border: none;
+							border-radius: 4px;
+							cursor: pointer;
+							/* float: right; */
+						}
+						
+						input[type=submit]:hover {
+							background-color: #45a049;
+						}
+						
+						.container {
+							border-radius: 5px;
+							background-color: #f2f2f2;
+							padding: 30px;
+							margin: 20px
+						}
+						
+						.col-25 {
+							float: left;
+							width: 25%;
+							margin-top: 4px;
+						}
+						
+						
+						.col-35 {
+							float: left;
+							width: 30%;
+							margin-top: 4px;
+						}
+						
+						.col-75 {
+							float: left;
+							width: 75%;
+							margin-top: 4px;
+						}
+						
+						.row:after {
+							content: "";
+							display: table;
+							clear: both;
+						}
+						
+						@media screen and (max-width: 600px) {
+							.col-25, .col-75, input[type=submit] {
+								width: 80%;
+								margin-top: 0;
+							}
+						}
+						
+						/* .signup {
+							background: rgb(0, 196, 65);
+							color: #fff;
+							font-weight: bold;
+							cursor: pointer;
+							transition: background 0.23s;
+							float: left;
+							padding: 8px;
+							text-align: center;
+							border: none;
+							border-radius: 3px;
+							font-size: 1em;
+						}
+						
+						.feedback-btn:hover {
+							background: rgb(0, 180, 50);
+						} */
+
+						 #---------------------Table style----------------------------------------------
+						
+						#covidDetailsTbl {
+						  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+						  border-collapse: collapse;
+						  width: 100%;
+						  
+						}
+						
+						#covidDetailsTbl td, #covidDetailsTbl th {
+						  border: 1px solid #ddd;
+						  padding: 8px;
+						}
+						
+						#covidDetailsTbl tr:nth-child(even){background-color: #f2f2f2;}
+						
+						#covidDetailsTbl tr:hover {background-color: #ddd;}
+						
+						#covidDetailsTbl th {
+						  padding-top: 12px;
+						  padding-bottom: 12px;
+						  text-align: left;
+						  background-color: #1c87c9;
+						  color: white;
+						}
+						
+						#myInput {
+						  background-position: 10px 10px;
+						  background-repeat: no-repeat;
+						  width: 80%;
+						  font-size: 16px;
+						  padding: 12px 20px 12px 40px;
+						  border: 1px solid #ddd;
+						  margin-bottom: 12px;
+						}
+						
+						#---------------------------------------Blinking effect
+						blink, .blink {
+						  -webkit-animation: blink 1s step-end infinite;
+						     -moz-animation: blink 1s step-end infinite;
+						       -o-animation: blink 1s step-end infinite;
+						          animation: blink 1s step-end infinite;
+						}
+						
+						@-webkit-keyframes blink {
+						  67% { opacity: 0 }
+						}
+						
+						@-moz-keyframes blink {
+						  67% { opacity: 0 }
+						}
+						
+						@-o-keyframes blink {
+						  67% { opacity: 0 }
+						}
+						
+						@keyframes blink {
+						  67% { opacity: 0 }
+						}
+
+						#---------------------------------------Feedback button
+						
+						.feedbackBtn {
+						background: rgb(0, 196, 65);
+						color: #fff;
+						font-weight: bold;
+						cursor: pointer;
+						transition: background 0.23s;
+						float: right;
+						padding: 8px;
+						text-align: center;
+						border: none;
+						border-radius: 3px;
+						font-size: 1em;
+					}
+					
+					.signup:hover {
+						background: rgb(0, 180, 50);
+					}
+
+					.searchCountry {
+						width: 40%;
+						padding: 12px;
+						border: 1px solid #ccc;
+						border-radius: 4px;
+						resize: vertical;	
+					}		
+					
+					.back-home-btn {
+						background: rgb(0, 196, 65); 
+						color: white;
+						padding: 12px 20px;
+						border: none;
+						border-radius: 4px;
+						cursor: pointer;
+						float: left;
+						margin-bottom: 20px;
+					}

@@ -1,0 +1,5 @@
+INDEX VERSION 1.131
+E:\TruptiFrankfurtStudyMaterial\SCS\Projects\COVID19\Workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4249940942.index
+\SCSCovid19\src\main\resources
+E:\TruptiFrankfurtStudyMaterial\SCS\Projects\COVID19\Workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3606539935.index
+\SCSCovid19\src\main\java

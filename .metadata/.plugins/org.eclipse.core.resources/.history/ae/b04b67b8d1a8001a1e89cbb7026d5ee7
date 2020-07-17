@@ -1,0 +1,96 @@
+package com.example.scs.services;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.scs.dao.CovidDashboardDao;
+import com.example.scs.model.CovidDashboard;
+
+@Service
+public class CovidDashboardServiceImpl implements CovidDashboardService {
+
+	private static final Logger logger = LoggerFactory.getLogger(CovidDashboardServiceImpl.class);
+
+	@Autowired
+	CovidDashboardDao covidDashboardDao;
+
+	@Override
+	public Map<String, Integer> getCovidDashboardDetails() {
+		logger.info("------------------Inside getCovidDashboardDetails------------------");
+
+		Map<String, Integer> covidDetails = new HashMap<>();
+
+		List<CovidDashboard> covidDashboardDetails = covidDashboardDao.findAll();
+		Integer FinalTotalCount = 0;
+		Integer fincalActiveCases = 0;
+		Integer finalRecoveredCases = 0;
+		Integer finalDeathCases = 0;
+
+		for (int x = 0; x < covidDashboardDetails.size(); x++) {
+			FinalTotalCount = FinalTotalCount + covidDashboardDetails.get(x).getTotalCases();
+			fincalActiveCases = fincalActiveCases + covidDashboardDetails.get(x).getActiveCases();
+			finalRecoveredCases = finalRecoveredCases + covidDashboardDetails.get(x).getRecoveredCases();
+			finalDeathCases = finalDeathCases + covidDashboardDetails.get(x).getDeathCases();
+		}
+		covidDetails.put("TotalCases", FinalTotalCount);
+		covidDetails.put("ActiveCases", fincalActiveCases);
+		covidDetails.put("Recovered", finalRecoveredCases);
+		covidDetails.put("Death", finalDeathCases);
+
+		logger.info("------------------Exit getCovidDashboardDetails------------------");
+		return covidDetails;
+
+	}
+
+	@Override
+	public Map<String, Integer> getRegionalCovidDetails(String countryName, String stateName, String cityName) {
+		logger.info("------------------Inside getRegionalCovidDetails------------------");
+
+		Map<String, Integer> covidDetails = new HashMap<>();
+		List<CovidDashboard> covideRegionalDtls = covidDashboardDao.getRegionalCovidDetails(countryName, stateName, cityName);
+		System.out.println("Size.."  +covideRegionalDtls.size());
+		Integer FinalTotalCount = 0;
+		Integer fincalActiveCases = 0;
+		Integer finalRecoveredCases = 0;
+		Integer finalDeathCases = 0;
+
+		System.out.println("covideRegionalDtls.." + covideRegionalDtls.toString());
+		for (int x = 0; x < covideRegionalDtls.size(); x++) {
+			System.out.println("value inside,../." + covideRegionalDtls.get(x));
+			FinalTotalCount = FinalTotalCount + covideRegionalDtls.get(x).getTotalCases();
+			fincalActiveCases = fincalActiveCases + covideRegionalDtls.get(x).getActiveCases();
+			finalRecoveredCases = finalRecoveredCases + covideRegionalDtls.get(x).getRecoveredCases();
+			finalDeathCases = finalDeathCases + covideRegionalDtls.get(x).getDeathCases();
+		}
+		covidDetails.put("TotalCases", FinalTotalCount);
+		covidDetails.put("ActiveCases", fincalActiveCases);
+		covidDetails.put("Recovered", finalRecoveredCases);
+		covidDetails.put("Death", finalDeathCases);
+
+		logger.info("------------------Exit getRegionalCovidDetails------------------");
+		return covidDetails;
+	}
+
+	@Override
+	public Object[] getAll() {
+		logger.info("------------------Inside getAll------------------");
+
+		Map<String, Integer> covidDetails = new HashMap<>();
+
+		List<CovidDashboard> covidDashboardDetails = covidDashboardDao.getAll();
+
+		Object[] obj = covidDashboardDetails.toArray();
+		System.out.println("Size" + obj.length);
+		System.out.println("value is ..." + obj);
+		logger.info("------------------Exit getAll------------------");
+		return obj;
+
+	}
+
+}

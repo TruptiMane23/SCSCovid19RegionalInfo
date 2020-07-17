@@ -1,0 +1,26 @@
+package com.example.scs.dao;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.example.scs.model.WorldCountDetails;
+
+@Repository
+public interface WorldDetailsDao extends JpaRepository<WorldCountDetails, Integer> {
+
+	@Modifying
+	@Transactional
+	@Query("update CovidDashboard covid set covid.newDailyRecovered = :newDailyRecovered,  covid.newDailyDeaths = :newDailyDeaths, covid.newDailyActive = :newDailyActive, "
+			+ "covid.totalCases =:totalCases, covid.recoveredCases = :recoveredCases, covid.deathCases = :deathCases, covid.activeCases = :activeCases, "
+			+ "covid.mdDate = :mdDate, covid.zone =:zone  where covid.cityId = :cityId")
+	int updateDailyCases(@Param("cityId") int cityId, @Param("newDailyRecovered") int newDailyRecovered, @Param("newDailyDeaths") int newDailyDeaths, 
+			@Param("newDailyActive") int newDailyActive, @Param("totalCases") int totalCases, @Param("recoveredCases") int recoveredCases, @Param("deathCases") int deathCases, 
+			@Param("activeCases") int activeCases, @Param("mdDate") String mdDate, @Param("zone") String zone );
+}
